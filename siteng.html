@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم</title>
+<script src="https://unpkg.com/@supabase/supabase-js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f0f1a;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* التبويبات */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    border: none;
+    color: #fff;
+    padding: 12px 25px;
+    margin: 0 5px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  .tab-btn.active {
+    background: linear-gradient(90deg, #ff00f7, #4facfe);
+    box-shadow: 0 0 20px rgba(255,0,247,0.8), 0 0 30px rgba(0,242,254,0.8);
+  }
+
+  .tab-content {
+    display: none;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .tab-content.active {
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: #1a1a2e;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  th {
+    background: linear-gradient(90deg, #00f2fe, #4facfe);
+  }
+  tr:nth-child(even) {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .delete-btn {
+    background: linear-gradient(90deg, #ff4e50, #f9d423);
+    border: none;
+    color: #000;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  .delete-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #ff4e50, 0 0 15px #f9d423;
+  }
+</style>
+</head>
+<body>
+
+<h2>لوحة التحكم</h2>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="contacts-tab">عرض الطلبات</button>
+  <button class="tab-btn" data-tab="testimonials-tab">عرض التعليقات</button>
+</div>
+
+<!-- تبويب الطلبات -->
+<div id="contacts-tab" class="tab-content active">
+  <table id="contacts-table">
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>الإيميل</th>
+        <th>الهاتف</th>
+        <th>الرسالة</th>
+        <th>التاريخ</th>
+        <th>حذف</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- تبويب التعليقات -->
+<div id="testimonials-tab" class="tab-content">
+  <table id="testimonials-table">
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>المحتوى</th>
+        <th>التقييم</th>
+        <th>التاريخ</th>
+        <th>حذف</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+  // ---------- إعداد Supabase ----------
+  const SUPABASE_URL = "https://afmhiphzsbzpdfpsouxu.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmbWhpcGh6c2J6cGRmcHNvdXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwNzM4MTAsImV4cCI6MjA3MjY0OTgxMH0.5gUYGdG7NKxlgquy0FGwCGvDbfgjVrYSgrOKIQx6pbg";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ---------- التبويبات ----------
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const tabContents = document.querySelectorAll(".tab-content");
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabButtons.forEach(b => b.classList.remove("active"));
+      tabContents.forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(btn.getAttribute("data-tab")).classList.add("active");
+    });
+  });
+
+  // ---------- تحميل الطلبات ----------
+  async function loadContacts() {
+    const { data, error } = await supabaseClient
+      .from("contacts")
+      .select("*")
+      .order("created_at", { ascending: false });
+    
+    if(error){ console.error(error); return; }
+
+    const tbody = document.querySelector("#contacts-table tbody");
+    tbody.innerHTML = data.map(c => `
+      <tr>
+        <td>${c.full_name}</td>
+        <td>${c.email}</td>
+        <td>${c.phone}</td>
+        <td>${c.message}</td>
+        <td>${new Date(c.created_at).toLocaleString()}</td>
+        <td><button class="delete-contact-btn delete-btn" data-id="${c.id}">حذف</button></td>
+      </tr>
+    `).join("");
+
+    document.querySelectorAll(".delete-contact-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        const { error } = await supabaseClient
+          .from("contacts")
+          .delete()
+          .eq("id", id);
+        if(error){ alert("خطأ عند الحذف"); console.error(error); }
+        else loadContacts();
+      });
+    });
+  }
+
+  // ---------- تحميل التعليقات ----------
+  async function loadTestimonials() {
+    const { data, error } = await supabaseClient
+      .from("testimonials")
+      .select("*")
+      .order("created_at", { ascending: false });
+    
+    if(error){ console.error(error); return; }
+
+    const tbody = document.querySelector("#testimonials-table tbody");
+    tbody.innerHTML = data.map(t => `
+      <tr>
+        <td>${t.name}</td>
+        <td>${t.content}</td>
+        <td>${t.rating || ""}</td>
+        <td>${new Date(t.created_at).toLocaleString()}</td>
+        <td><button class="delete-testimonial-btn delete-btn" data-id="${t.id}">حذف</button></td>
+      </tr>
+    `).join("");
+
+    document.querySelectorAll(".delete-testimonial-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        const { error } = await supabaseClient
+          .from("testimonials")
+          .delete()
+          .eq("id", id);
+        if(error){ alert("خطأ عند الحذف"); console.error(error); }
+        else loadTestimonials();
+      });
+    });
+  }
+
+  // ---------- التحميل الأولي ----------
+  loadContacts();
+  loadTestimonials();
+</script>
+
+</body>
+</html>
+
+
+
+
+

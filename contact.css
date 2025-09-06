@@ -1,0 +1,100 @@
+/* --- شريط علوي --- */
+.topbar {
+  width: 100%;
+  background: #1a1a2e;
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+}
+
+.topbar .back-btn {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.topbar .back-btn:hover {
+  color: #00f2fe;
+  transition: 0.3s;
+}
+
+/* --- سكشن التواصل --- */
+.contact-section-neo {
+  background: #0f0f1a;
+  padding: 80px 20px;
+  text-align: center;
+  color: #fff;
+  position: relative;
+}
+
+.portfolio-title {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #00f2fe, #4facfe, #ff00f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: neonGlow 2s infinite alternate;
+}
+
+@keyframes neonGlow {
+  from { text-shadow: 0 0 10px #00f2fe, 0 0 20px #4facfe; }
+  to { text-shadow: 0 0 20px #ff00f7, 0 0 30px #00f2fe; }
+}
+
+.contact-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #1a1a2e;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 0 20px #00f2fe;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #0f0f1a;
+  color: #fff;
+  border: 1px solid #4facfe;
+}
+
+.contact-form textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.portfolio-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0,242,254,0.7);
+}
+
+.portfolio-btn:hover {
+  background: linear-gradient(90deg, #ff00f7, #4facfe);
+  box-shadow: 0 0 20px rgba(255,0,247,0.8), 0 0 30px rgba(0,242,254,0.8);
+  transform: scale(1.1);
+}
+
+.alert {
+  text-align: center;
+  margin-bottom: 15px;
+  display: none;
+  font-size: 16px;
+}
