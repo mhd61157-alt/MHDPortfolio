@@ -15,11 +15,13 @@
     <img src="photo/logo.png" alt="شعار MHDPortfolio">
     <span>MHDPortfolio</span>
   </div>
+
   <div class="menu-toggle" id="mobile-menu">
     <span class="bar"></span>
     <span class="bar"></span>
     <span class="bar"></span>
   </div>
+
   <ul class="nav-list">
     <li><a href="#home">الرئيسية</a></li>
     <li><a href="#about">من أنا</a></li>
@@ -38,19 +40,20 @@ const navLinks = document.querySelectorAll('.nav-list li a');
 
 // فتح/إغلاق القائمة عند الضغط على hamburger
 mobileMenu.addEventListener('click', () => {
-  navList.classList.toggle('active');
+  navList.classList.toggle('show');
   mobileMenu.classList.toggle('active');
 });
 
 // إغلاق القائمة تلقائيًا عند اختيار رابط
 navLinks.forEach(link => {
   link.addEventListener('click', () => {
-    if(navList.classList.contains('active')){
-      navList.classList.remove('active');
+    if(navList.classList.contains('show')){
+      navList.classList.remove('show');
       mobileMenu.classList.remove('active');
     }
   });
 });
+
 </script>
 
 
@@ -509,6 +512,7 @@ modal.addEventListener("click", () => {
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
