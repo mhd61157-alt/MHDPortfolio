@@ -15,7 +15,12 @@
     <img src="photo/logo.png" alt="شعار MHDPortfolio">
     <span>MHDPortfolio</span>
   </div>
-  <ul>
+  <div class="menu-toggle" id="mobile-menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </div>
+  <ul class="nav-list">
     <li><a href="#home">الرئيسية</a></li>
     <li><a href="#about">من أنا</a></li>
     <li><a href="#services">الخدمات</a></li>
@@ -23,8 +28,102 @@
     <li><a href="#certificates">الشهادات</a></li>
     <li><a href="#testimonials">آراء العملاء</a></li>
     <li><a href="contacts.html">تواصل</a></li>
+    <li><a href="siteng.html">التحكم</a></li>
   </ul>
 </nav>
+
+<style>
+/* ======= التصميم العام ======= */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #333;
+  color: #fff;
+  height: 60px;
+}
+.navbar .logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+.navbar .logo span {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.navbar ul li {
+  margin-left: 20px;
+}
+.navbar ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.navbar ul li a:hover {
+  color: #00f2fe;
+}
+
+/* ======= القائمة المنسدلة للهاتف ======= */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+.menu-toggle .bar {
+  height: 3px;
+  width: 25px;
+  background-color: #fff;
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+/* ======= responsive ======= */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+  .nav-list {
+    position: absolute;
+    top: 60px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background-color: #333;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    transition: 0.3s;
+    padding-top: 20px;
+  }
+  .nav-list li {
+    margin: 20px 0;
+  }
+  .nav-list.active {
+    left: 0;
+  }
+}
+</style>
+
+<script>
+const mobileMenu = document.getElementById('mobile-menu');
+const navList = document.querySelector('.nav-list');
+
+mobileMenu.addEventListener('click', () => {
+  navList.classList.toggle('active');
+  mobileMenu.classList.toggle('active');
+});
+</script>
+
 
 
   <!-- ====== Home ====== -->
@@ -481,4 +580,5 @@ modal.addEventListener("click", () => {
   <script src="script.js"></script>
 </body>
 </html>
+
 
