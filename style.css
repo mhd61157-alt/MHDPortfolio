@@ -46,8 +46,8 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   background: linear-gradient(90deg, #9333ea, #a855f7);
-  background-clip: text;            /* ✅ أضفنا النسخة القياسية */
-  -webkit-background-clip: text;    /* ✅ دعم المتصفحات المبنية على WebKit */
+  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientMove 3s infinite linear;
 }
@@ -66,14 +66,14 @@ body {
   display: flex;
   gap: 25px;
 }
-.navbar ul a {
+.navbar ul li a {
   color: #eee;
   text-decoration: none;
   font-weight: 500;
   position: relative;
   transition: color 0.3s;
 }
-.navbar ul a::after {
+.navbar ul li a::after {
   content: "";
   position: absolute;
   width: 0;
@@ -83,39 +83,48 @@ body {
   bottom: -5px;
   transition: width 0.3s;
 }
-.navbar ul a:hover::after {
+.navbar ul li a:hover::after {
   width: 100%;
 }
-.navbar ul a:hover {
+.navbar ul li a:hover {
   color: #a855f7;
 }
 
 /* زر القائمة في الموبايل */
 .menu-toggle {
   display: none;
-  font-size: 2rem;
+  flex-direction: column;
   cursor: pointer;
-  color: #a855f7;
+}
+.menu-toggle .bar {
+  height: 3px;
+  width: 25px;
+  background-color: #a855f7;
+  margin: 4px 0;
+  transition: 0.3s;
 }
 
-/* Responsive */
+/* ===================== Responsive للهواتف ===================== */
 @media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
   .navbar ul {
-    display: none;
     flex-direction: column;
     position: absolute;
     top: 70px;
-    right: 0;
-    background: rgba(0,0,0,0.9);
+    right: -220px; /* مخفية خارج الشاشة */
     width: 200px;
+    background: rgba(0,0,0,0.9);
     padding: 20px;
     border-radius: 8px 0 0 8px;
+    transition: right 0.3s ease;
+    gap: 15px;
   }
+
   .navbar ul.show {
-    display: flex;
-  }
-  .menu-toggle {
-    display: block;
+    right: 0; /* تظهر القائمة */
   }
 }
 
@@ -841,3 +850,4 @@ footer {
     flex-direction: column;
   }
 }
+
