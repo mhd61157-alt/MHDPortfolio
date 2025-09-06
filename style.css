@@ -61,19 +61,19 @@ body {
 }
 
 /* روابط القائمة */
-.navbar ul {
+.nav-list {
   list-style: none;
   display: flex;
   gap: 25px;
 }
-.navbar ul li a {
+.nav-list li a {
   color: #eee;
   text-decoration: none;
   font-weight: 500;
   position: relative;
   transition: color 0.3s;
 }
-.navbar ul li a::after {
+.nav-list li a::after {
   content: "";
   position: absolute;
   width: 0;
@@ -83,10 +83,10 @@ body {
   bottom: -5px;
   transition: width 0.3s;
 }
-.navbar ul li a:hover::after {
+.nav-list li a:hover::after {
   width: 100%;
 }
-.navbar ul li a:hover {
+.nav-list li a:hover {
   color: #a855f7;
 }
 
@@ -110,7 +110,7 @@ body {
     display: flex;
   }
 
-  .navbar ul {
+  .nav-list {
     flex-direction: column;
     position: absolute;
     top: 70px;
@@ -123,7 +123,7 @@ body {
     gap: 15px;
   }
 
-  .navbar ul.show {
+  .nav-list.show {
     right: 0; /* تظهر القائمة */
   }
 }
@@ -850,4 +850,5 @@ footer {
     flex-direction: column;
   }
 }
+
 
